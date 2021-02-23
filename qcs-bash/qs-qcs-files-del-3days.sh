@@ -29,5 +29,6 @@ do
                 # Delete file
                 result=$(curl -ks -X DELETE "$urlD" -H "Authorization: Bearer $apiKey");
                 echo $result;
+		sleep 4;
         fi
 done
