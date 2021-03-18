@@ -6,21 +6,23 @@ tenant="$(cat ../secret/tenant)";
 apiKey="$(cat ../secret/api-key)";
 
 # Define app id
-AppId='d8c34cec-b655-492e-a5b9-ae15356d03fb';
+appId='d8c34cec-b655-492e-a5b9-ae15356d03fb';
 
 # Setting URL
 url="https://$tenant/api/v1/apps/$appId";
 urlE="https://$tenant/api/v1/apps/$appId/export";
-urlTmp="https://$tenant/api/v1/apps/temp-contents/601411722823140001ebc69c";
 
-# Get app info
+# Get app name
 nameApp="$(curl -s -X GET -# "$url" -H "Authorization: Bearer $apiKey" | jq -r '.attributes | .name')";
 echo $nameApp;
+# Replace name App space per Underscore
+nameApp=`echo $nameApp | tr ' ' '_' `;
 
-# Export file
-export="$(curl -v -i -X POST -# "$urlE" -H "Authorization: Bearer $apiKey")";
-echo $export.Headers.Location
+# Get temp location
+export="$(curl -si -X POST "$urlE" -H "Authorization: Bearer $apiKey" | grep -oP 'location: \K.*' | tr -d \")";
+urlD="https://$tenant$export";
+echo $urlD;
 
-#getTempContent="$(curl -v -i -# "$urlTmp" -H "Authorization: Bearer $apiKey")";
-#echo $getTempContent
-#download="$(curl -X GET "https://$tenant/ -H "Authorization: Bearer $apiKey")"
+sleep 3;
+# Download temp files
+curl -s -X GET "$urlD" -o "$nameApp.qvf";

@@ -17,3 +17,5 @@ curl -s "https://$tenant/api/v1/data-connections" -H "Authorization: Bearer $api
 # Get Files
 curl -s "https://$tenant/api/v1/qix-datafiles" -H "Authorization: Bearer $apiKey" | jq;
 
+# Get Groups info
+curl -s "https://$tenant/api/v1/qlik-groups/B8GvT7XQ1C6j3TBZ6wYo1O3TBSAew2dp" -H "Authorization: Bearer $apiKey" | jq;
